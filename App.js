@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput} from 'react-native';
-import Fetch from './Fetch.js'
+import { StyleSheet, Text, View, Button, TextInput, StatusBar} from 'react-native';
+import DisplayStocks from './DisplayStocks.js'
 import LogRegister from './LogRegister'
 
 export default class App extends React.Component {
@@ -57,11 +57,14 @@ export default class App extends React.Component {
       loadeddata: true
     })
   }
+  componentDidMount() {
+    StatusBar.setBarStyle('light-content')
+  }
   render() {
     return (
       <View style={styles.container}>
         { this.state.logged ? 
-        <Fetch loggedID={this.state.loggedID}></Fetch>
+        <DisplayStocks loggedID={this.state.loggedID}></DisplayStocks>
         : <LogRegister login={this.login} />
         }
       </View>
@@ -75,6 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(18,18,18)',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: 40
   },
   header: {
     backgroundColor: 'rgb(28,28,28)', 

@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, Alert, Platform} from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Alert, Platform, Keyboard} from 'react-native';
 
-class LogRegister extends React.Component {
+export default class LogRegister extends React.Component {
     constructor() {
         super()
         this.state = {
@@ -97,7 +97,21 @@ class LogRegister extends React.Component {
                         placeholderTextColor="gray"
                         onChangeText={(text) => this.setState({username: text})}
                         />
-                    <TextInput 
+                    { this.state.action === "login" ? null : 
+                        <TextInput
+                        onBlur={Keyboard.dismiss}
+                        autoCapitalize="none"
+                        textContentType="emailAddress"
+                        value={this.state.email}
+                        style={styles.input}
+                        placeholder="Email"
+                        placeholderTextColor="gray"
+                        onChangeText={(text) => this.setState({email: text})}
+                        />}
+                    <TextInput
+                        onBlur={Keyboard.dismiss}
+                        autoCapitalize="none"
+                        textContentType="password"
                         value={this.state.password}
                         style={styles.input}
                         placeholder="Password"
@@ -122,4 +136,3 @@ const styles = StyleSheet.create({
         margin: 5, 
     }
 })
-export default LogRegister;
