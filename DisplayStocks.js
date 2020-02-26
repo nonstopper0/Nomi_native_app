@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, FlatList, Keyboard, Dimensions, ScrollView, ActivityIndicator, TouchableHighlight, TouchableOpacity, Modal} from 'react-native';
+import React from 'react';
+import { Text, View, TextInput,  Keyboard, Dimensions, ScrollView, ActivityIndicator, TouchableOpacity, Alert} from 'react-native';
 import { LineChart } from 'react-native-chart-kit'
 import { Ionicons, AntDesign } from '@expo/vector-icons'
 
@@ -30,7 +30,7 @@ export default class DisplayStocks extends React.Component {
         }
     }
     removeStock = async(name) => {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/stock/${name}/${this.props.loggedID}`, {
+      const response = await fetch(`https://nomistockexpress.herokuapp.com/stock/${name}/${this.props.loggedID}`, {
           method: 'DELETE'
       })
       const newData = this.state.formattedData.filter((data) => data.name !== name)
@@ -38,6 +38,31 @@ export default class DisplayStocks extends React.Component {
           formattedData: newData
       })
     }
+    handleSubmit = async(e) => {
+      console.log('submitted')
+      const stockName = (this.state.name).toString().toUpperCase()
+      try {
+         const response = await fetch(`https://nomistockexpress.herokuapp.com/stock/add/${stockName}/${this.props.loggedID}`, {
+             method: 'POST'
+         })
+         const parsedResponse = await response.json()
+         if (parsedResponse.status === 200) {
+             this.setState({
+                 message: '',
+                 name: ''
+             })
+             this.updateStocks()
+         } else if (parsedResponse.status === 400) {
+           console.log('failed')
+             this.setState({
+                 message: parsedResponse.data,
+                 name: ''
+             })
+         }
+    } catch(err) {
+      console.log(err)
+    }
+  }
     componentDidMount() {
         this.updateStocks()
     }
@@ -69,11 +94,15 @@ export default class DisplayStocks extends React.Component {
                       placeholder="Stock name"
                       placeholderTextColor="gray"
                       onChangeText={(text) => this.setState({name: text})}
+                      onSubmitEditing={this.handleSubmit}
                       />
-                <TouchableOpacity disabled={this.state.name ? false : true } onPress={()=>console.log('touched')} style={{alignItems: 'center'}}>
+                <TouchableOpacity disabled={this.state.name ? false : true } onPress={()=>this.handleSubmit()} style={{alignItems: 'center'}}>
                   <AntDesign name="checkcircle" size={40} style={{padding: 10}}color={ this.state.name ? 'orange' : 'grey' }/>
                 </TouchableOpacity>
               </View>
+              { this.state.message ? 
+              <Text style={{color: 'white', textAlign: 'center', margin: 10, fontSize: 17}}>{this.state.message}</Text>
+              : null }
               { this.state.formattedData.map((stock) => {
                 let dateArray = []
                 stock.data.map((date, index) => {
@@ -89,9 +118,9 @@ export default class DisplayStocks extends React.Component {
                   return (
                       <View key={stock.name} style={{flex: 1, alignItems: 'center', width: Dimensions.get("window").width, backgroundColor: 'rgb(38,38,38)', borderRadius: 20, marginBottom: 12}}>
                       <Text style={{padding: 10, fontSize: 20, color: 'white', fontWeight: 'bold'}}>{`${compared}%`} | <Text style={{color: 'orange'}}>{stock.name}</Text> | {current} </Text>
-                      <View style={{position: 'absolute', left: '88%', top: 10}}>
+                      <TouchableOpacity onPress={() => this.removeStock(stock.name)} style={{position: 'absolute', left: '88%', top: 10}}>
                         <Ionicons name="md-remove" size={32} color="grey"/> 
-                      </View>
+                      </TouchableOpacity>
 
                       <LineChart
                       data={{
