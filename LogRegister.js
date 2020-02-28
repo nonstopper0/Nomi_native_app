@@ -117,6 +117,7 @@ export default class LogRegister extends React.Component {
                         placeholder="Password"
                         placeholderTextColor="gray"
                         onChangeText={(text) => this.setState({password: text})}
+                        onSubmitEditing={this.handleSubmit}
                         />
                     <View style={{ margin: 5}}>
                     <Button onPress={this.handleSubmit} color="orange" title={this.state.action === "login" ? "Login" : "Register"}></Button>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, StatusBar} from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Dimensions, Platform} from 'react-native';
 import DisplayStocks from './DisplayStocks.js'
+import { MaterialIcons } from '@expo/vector-icons'
 import LogRegister from './LogRegister'
 
 export default class App extends React.Component {
@@ -64,7 +65,14 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         { this.state.logged ? 
-        <DisplayStocks loggedID={this.state.loggedID}></DisplayStocks>
+        <View>
+          <View style={styles.header}>
+            <View style={{left: -5, top: Platform.OS === 'ios' ? '50%' : '60%'}}>
+              <Text style={{fontWeight: 'bold', fontSize: 25, color: 'white'}}><MaterialIcons name="attach-money" color="orange" size={25}/>{(this.state.money).toFixed(2)}</Text>
+            </View>
+          </View>
+          <DisplayStocks subtract={this.updateMoney} loggedID={this.state.loggedID}></DisplayStocks>
+        </View>
         : <LogRegister login={this.login} />
         }
       </View>
@@ -78,10 +86,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(18,18,18)',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 40
   },
   header: {
-    backgroundColor: 'rgb(28,28,28)', 
-    padding: 20
-  }
+    zIndex: 2, 
+    position: 'absolute', 
+    width: '100%', 
+    alignItems: 'center', 
+    height: (Platform.OS === 'ios' ? 70 : 100),
+    width: Dimensions.get('window').width, 
+    backgroundColor: 'rgb(45,45,45)', 
+    borderBottomColor: 'rgb(40,40,40)', 
+    borderBottomWidth: 7   
+  },
 });
