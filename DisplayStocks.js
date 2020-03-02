@@ -108,6 +108,7 @@ export default class DisplayStocks extends React.Component {
             { this.state.isLoaded ? 
             <View>
               <ScrollView indicatorStyle="white">
+              { /* Add stock View */}
               <View style={{
                 flex: 1, 
                 alignItems: 'center', 
@@ -121,6 +122,7 @@ export default class DisplayStocks extends React.Component {
                 justifyContent: 'space-evenly'
                 }}
               >
+                  { /* Add stock input */}
                   <Text style={{fontWeight: 'bold', textAlign: 'auto', color: 'white', fontSize: 25, margin: 10}}>Add <Text style={{color: 'orange'}}>Stock</Text></Text>
                   <TextInput
                       onBlur={Keyboard.dismiss}
@@ -132,9 +134,12 @@ export default class DisplayStocks extends React.Component {
                       onChangeText={(text) => this.setState({name: text})}
                       onSubmitEditing={this.handleSubmit}
                       />
+                { /* Add stock button */}
                 <TouchableOpacity disabled={this.state.name ? false : true } onPress={()=>this.handleSubmit()} style={{alignItems: 'center'}}>
                       {this.state.addLoaded ? <AntDesign name="checkcircle" size={40} style={{padding: 10}}color={ this.state.name ? 'orange' : 'grey' }/> : <ActivityIndicator style={{padding: 10}}size="large" color="white"/> }
                 </TouchableOpacity>
+
+
               </View>
               { this.state.message ? 
               <Text style={{color: 'white', textAlign: 'center', margin: 10, fontSize: 17}}>{this.state.message}</Text>
