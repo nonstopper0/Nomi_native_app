@@ -51,17 +51,9 @@ export default class DisplayStocks extends React.Component {
           }
       })
       const parsedResponse = await response.json()
-      if (parsedResponse.status === 400) {
-          this.setState({
-              addStockMessage: parsedResponse.data
-          })
-      } else if (parsedResponse.status === 200) {
-          console.log(parsedResponse)
+      if (parsedResponse.status === 200) {
           let finalPrice = parseFloat(parsedResponse.data[0]*parsedResponse.data[1]).toFixed(2)
           this.props.subtract('subtract', finalPrice)
-          this.setState({
-              addStockMessage: `Congrats, you have succesfully purchased ${parsedResponse.data[1]} of ${parsedResponse.data[2]} for ${finalPrice}`
-          })
       }
     }
     removeStock = async(name) => {
@@ -141,21 +133,30 @@ export default class DisplayStocks extends React.Component {
 
 
               </View>
+              { /* message for when there is an error adding a stock */ }
               { this.state.message ? 
               <Text style={{color: 'white', textAlign: 'center', margin: 10, fontSize: 17}}>{this.state.message}</Text>
               : null }
               { this.state.formattedData.map((stock) => {
                 let dateArray = []
                 stock.data.map((date, index) => {
-                  if (index % 12 === 0) {dateArray.push(date.date)} 
+                  index > 70 && (index % 3 === 0) ? 
+                  dateArray.push(date.date)
+                  : 
+                  null
                 })
                 let dataArray = []
                 stock.data.map((data, index) => {
+                  index > 70
+                  ? 
                   dataArray.push(data.open)
+                  : 
+                  null
                 })
                 const indexOfLast = stock.data.length-1
                 const compared = (stock.data[indexOfLast].open - (stock.data[indexOfLast-1].open)).toFixed(2)
                 const current = `$${(parseFloat(stock.data[indexOfLast].open).toFixed(2))}`
+                const decimalPlaces = (parseFloat(stock.data[90].open).toFixed(0).length) >= 2 ? 0 : 2
                   return (
                       <View key={stock.name} style={{flex: 1, alignItems: 'center', width: Dimensions.get("window").width, backgroundColor: 'rgb(38,38,38)', borderRadius: 20, marginBottom: 12}}>
                       <Text style={{padding: 10, fontSize: 20, color: 'white', fontWeight: 'bold'}}>{`${compared}`} | <Text style={{color: 'orange'}}>{stock.name}</Text> | {current} </Text>
@@ -181,7 +182,7 @@ export default class DisplayStocks extends React.Component {
                         backgroundColor: "black",
                         backgroundGradientFrom: "rgb(59,59,59)",
                         backgroundGradientTo: "rgb(28,28,28)",
-                        decimalPlaces: 0, // optional, defaults to 2dp
+                        decimalPlaces: decimalPlaces, // optional, defaults to 2dp
                         color: (opacity = 1) => `rgba(255, 255, 255, ${0.1})`,
                         labelColor: () => `rgba(255, 255, 255, ${.8})`,
                         style: {
@@ -205,7 +206,8 @@ export default class DisplayStocks extends React.Component {
                     <TouchableOpacity style={{backgroundColor: 'orange', borderRadius: 50}} onPress={()=> this.state.numToBuy > 1 ? this.setState({numToBuy: this.state.numToBuy - 1}) : null}>
                     <AntDesign color="white" name="minus" size={32}/> 
                     </TouchableOpacity>
-                    <TouchableOpacity style={{backgroundColor: 'rgb(68,68,68)', padding: 10, borderRadius: 20}}>
+                    { /* buy stock button */ }
+                    <TouchableOpacity  onPress={() => this.buyStock(stock.name)}style={{backgroundColor: 'rgb(68,68,68)', padding: 10, borderRadius: 20}}>
                     <Text style={{color: 'white'}}>Buy {this.state.numToBuy} of {stock.name} for {(parseFloat(stock.data[stock.data.length-1].open).toFixed(2) * this.state.numToBuy).toFixed(2)}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={{backgroundColor: 'orange', borderRadius: 50}} onPress={()=>this.setState({numToBuy: this.state.numToBuy + 1})}>
