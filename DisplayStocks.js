@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, View, TextInput,  Keyboard, Dimensions, ScrollView, ActivityIndicator, TouchableOpacity, Alert} from 'react-native';
 import { LineChart } from 'react-native-chart-kit'
 import { Ionicons, AntDesign } from '@expo/vector-icons'
-import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
 
 export default class DisplayStocks extends React.Component {
     constructor() {

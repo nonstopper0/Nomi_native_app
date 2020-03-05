@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, StatusBar, Dimensions, Platform} from 'react-na
 import DisplayStocks from './DisplayStocks.js'
 import { MaterialIcons } from '@expo/vector-icons'
 import LogRegister from './LogRegister'
+import DisplayOwnedStocks from './DisplayOwnedStocks'
 
 export default class App extends React.Component {
 
