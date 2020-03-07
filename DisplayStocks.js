@@ -108,7 +108,7 @@ export default class DisplayStocks extends React.Component {
                 width: '100%', 
                 borderRadius: 20, 
                 backgroundColor: 'rgb(38,38,38)', 
-                marginTop: (Platform.OS === 'ios' ? 80 : 110),
+                marginTop: (Platform.OS === 'ios' ? 100 : 130),
                 marginBottom: 12,
                 justifyContent: 'space-evenly'
                 }}

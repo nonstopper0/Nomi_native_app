@@ -68,7 +68,9 @@ export default class App extends React.Component {
         { this.state.logged ? 
         <View>
           <View style={styles.header}>
-          <DisplayOwnedStocks />
+            <View style={{top: Platform.OS === 'ios' ? '50%' : '60%'}}>
+              <DisplayOwnedStocks/>
+            </View>
             <View style={{left: -5, top: Platform.OS === 'ios' ? '50%' : '60%'}}>
               <Text style={{fontWeight: 'bold', fontSize: 25, color: 'white'}}><MaterialIcons name="attach-money" color="orange" size={25}/>{(this.state.money).toFixed(2)}</Text>
             </View>
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
     position: 'absolute', 
     width: '100%', 
     alignItems: 'center', 
-    height: (Platform.OS === 'ios' ? 70 : 100),
+    height: (Platform.OS === 'ios' ? 90 : 120),
     width: Dimensions.get('window').width, 
     backgroundColor: 'rgb(45,45,45)', 
     borderBottomColor: 'rgb(40,40,40)', 

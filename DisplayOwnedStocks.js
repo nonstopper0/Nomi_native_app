@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import MenuDrawer from 'react-native-side-drawer'
 import { AntDesign } from '@expo/vector-icons'
 
@@ -20,17 +20,17 @@ export default class DisplayOwnedStocks extends React.Component {
     render() {
         return (
           <View style={styles.container}>
+              <TouchableOpacity onPress={()=> this.setState({open: !this.state.open})} style={styles.button}>
+                <AntDesign color="white" size={29} name="menuunfold"></AntDesign>
+              </TouchableOpacity>
             <MenuDrawer 
               open={this.state.open} 
               drawerContent={this.drawerContent()}
-              drawerPercentage={45}
+              drawerPercentage={50}
               animationTime={250}
               overlay={true}
-              opacity={0.4}
+              opacity={.5}
             >
-              <TouchableOpacity onPress={()=>this.setState({open: !this.state.open})} style={styles.container}>
-                <AntDesign color="white" size={64} name="menuunfold"></AntDesign>
-              </TouchableOpacity>
             </MenuDrawer>
           </View>
         );
@@ -41,14 +41,20 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         position: "absolute",
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 30,
-        zIndex: 0
+        zIndex: 1,
+    },
+    button: {
+        position: 'relative', 
+        top: 0,
+        width: 40,
+        height: 40,
+        zIndex: 1,
+        left: -Dimensions.get("window").width / 2 + 20,
     },
     animatedBox: {
-        flex: 1,
-        backgroundColor: "#38C8EC",
-        padding: 10
+      flex: 1,
+      left: -Dimensions.get("window").width / 2,
+      backgroundColor: "#38C8EC",
+      padding: 10
     },
   })
