@@ -68,6 +68,7 @@ export default class App extends React.Component {
         { this.state.logged ? 
         <View>
           <View style={styles.header}>
+          <DisplayOwnedStocks />
             <View style={{left: -5, top: Platform.OS === 'ios' ? '50%' : '60%'}}>
               <Text style={{fontWeight: 'bold', fontSize: 25, color: 'white'}}><MaterialIcons name="attach-money" color="orange" size={25}/>{(this.state.money).toFixed(2)}</Text>
             </View>
