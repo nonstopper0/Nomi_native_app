@@ -41,20 +41,20 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         position: "absolute",
-        zIndex: 1,
+        zIndex: 2,
     },
     button: {
-        position: 'relative', 
+        position: 'absolute', 
         top: 0,
         width: 40,
         height: 40,
-        zIndex: 1,
+        zIndex: 2,
         left: -Dimensions.get("window").width / 2 + 20,
     },
     animatedBox: {
       flex: 1,
       left: -Dimensions.get("window").width / 2,
       backgroundColor: "#38C8EC",
-      padding: 10
+      padding: 10,
     },
   })
