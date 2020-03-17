@@ -78,15 +78,14 @@ export default class LogRegister extends React.Component {
             })
         }
     }
+    // check async storage to see if the user has already logged in on this device, if they have: run the login function with stored data.
     componentDidMount = async(e) => {
         const username = await AsyncStorage.getItem('1')
         const password = await AsyncStorage.getItem('2')
         if (username && password != null) {
-            console.log(username, password)
             this.login({username: username.toLowerCase(), password: password})
         }
     }
-    // check async storage to see if the user has already logged in on this device
     render(){
         return(
             <View style={{flex: 0, width: '90%', justifyContent: "center", backgroundColor: 'rgb(48,48,48)', borderRadius: 25}}>
