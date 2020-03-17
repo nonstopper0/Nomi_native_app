@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, Alert, Platform, Keyboard} from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Alert, Platform, Keyboard, AsyncStorage} from 'react-native';
 
 export default class LogRegister extends React.Component {
     constructor() {
@@ -55,6 +55,10 @@ export default class LogRegister extends React.Component {
         const parsedLoginResponse = await response.json()
         if (parsedLoginResponse.status === 200) {
             this.props.login(parsedLoginResponse.data, parsedLoginResponse.money)
+            if (this.state.username && this.state.password) {
+                await AsyncStorage.setItem('1', `${this.state.username}`)
+                await AsyncStorage.setItem('2', `${this.state.password}`)
+            }
         } else {
             this.setState({
                 message: 'Login failed, Wrong username or password'
@@ -74,6 +78,15 @@ export default class LogRegister extends React.Component {
             })
         }
     }
+    componentDidMount = async(e) => {
+        const username = await AsyncStorage.getItem('1')
+        const password = await AsyncStorage.getItem('2')
+        if (username && password != null) {
+            console.log(username, password)
+            this.login({username: username.toLowerCase(), password: password})
+        }
+    }
+    // check async storage to see if the user has already logged in on this device
     render(){
         return(
             <View style={{flex: 0, width: '90%', justifyContent: "center", backgroundColor: 'rgb(48,48,48)', borderRadius: 25}}>

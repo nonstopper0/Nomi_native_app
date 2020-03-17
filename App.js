@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, StatusBar, Dimensions, Platform} from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Dimensions, Platform, AsyncStorage} from 'react-native';
 import DisplayStocks from './DisplayStocks.js'
 import { MaterialIcons } from '@expo/vector-icons'
 import LogRegister from './LogRegister'
-import DisplayOwnedStocks from './DisplayOwnedStocks'
 
 export default class App extends React.Component {
 
@@ -59,18 +58,12 @@ export default class App extends React.Component {
       loadeddata: true
     })
   }
-  componentDidMount() {
-    StatusBar.setBarStyle('light-content')
-  }
   render() {
     return (
       <View style={styles.container}>
         { this.state.logged ? 
         <View>
           <View style={styles.header}>
-            <View style={{top: Platform.OS === 'ios' ? '50%' : '60%'}}>
-              <DisplayOwnedStocks/>
-            </View>
             <View style={{left: -5, top: Platform.OS === 'ios' ? '50%' : '60%'}}>
               <Text style={{fontWeight: 'bold', fontSize: 25, color: 'white'}}><MaterialIcons name="attach-money" color="orange" size={25}/>{(this.state.money).toFixed(2)}</Text>
             </View>
