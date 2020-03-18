@@ -58,6 +58,10 @@ export default class App extends React.Component {
       loadeddata: true
     })
   }
+  // turn the status bar white to contrast with the dark background on app load
+  componentDidMount = (e) => {
+    StatusBar.setBarStyle('light-content', true);
+  }
   render() {
     return (
       <View style={styles.container}>
