@@ -1,17 +1,40 @@
 import React from 'react'
-import { View, ScrollView, ActivityIndicator} from 'react-native'
+import { View, ScrollView, ActivityIndicator, Dimensions} from 'react-native'
 
 export default class DisplayOwned extends React.Component {
     constructor() {
         super()
         this.state = {
             loadeddata: false,
+            data: [],
+            isLoaded: true,
         }
+    }
+    updateOwned = async() => {
+        try {
+            const response = await fetch(`https://nomistockexpress.herokuapp.com/stock/history/${this.props.loggedID}`, {
+                method: 'GET' 
+            })
+            const parsedResponse = await response.json()
+            if (parsedResponse.status == 200) {
+                this.setState({
+                    data: parsedResponse.data,
+                    isLoaded: true,
+                }) 
+                console.log(parsedResponse.data)              
+            } else {
+                console.log('no data')
+            }
+        } catch(err) {
+            console.log(err)
+        }
+    }
+    componentDidMount() {
+        this.updateOwned()
     }
     render() {
         return (
-            <View style={{flex: 1}}>
-                { this.state.loadeddata ? 
+            <View style={{position: 'absolute', flex: 1, width: Dimensions.get('window').width, height: Dimensions.get('window').height, zIndex: 3}}>
                 <View>
                     <ScrollView indicatorStyle="white">
                         <View style={{
@@ -30,9 +53,6 @@ export default class DisplayOwned extends React.Component {
                         </View>
                     </ScrollView>
                 </View>
-                :
-                <ActivityIndicator style={{position: 'absolute', left: -20, top: '45%'}}size="large" color="white"/>       
-                }
             </View>
         )
     }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, StatusBar, Dimensions, Platform, AsyncStorage} from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Dimensions, Platform, AsyncStorage, TouchableOpacity} from 'react-native';
 import DisplayStocks from './DisplayStocks.js'
 import { MaterialIcons } from '@expo/vector-icons'
 import LogRegister from './LogRegister'
@@ -69,16 +69,20 @@ export default class App extends React.Component {
       <View style={styles.container}>
         { this.state.logged ? 
         <View>
-          <View style={styles.header}>
+          <View style={styles.header}>  
+            <TouchableOpacity onPress={()=>this.setState({homepage: !this.state.homepage})} style={{position: 'absolute', left: 10, top: Platform.OS === 'ios' ? '50%' : '60%'}}>
+              <MaterialIcons name={this.state.homepage ? 'expand-more' : 'expand-less'} color="white" size={32}/>
+            </TouchableOpacity>
             <View style={{left: -5, top: Platform.OS === 'ios' ? '50%' : '60%'}}>
               <Text style={{fontWeight: 'bold', fontSize: 25, color: 'white'}}><MaterialIcons name="attach-money" color="orange" size={25}/>{(this.state.money).toFixed(2)}</Text>
             </View>
           </View>
-          { this.state.homepage ? 
-          <DisplayStocks subtract={this.updateMoney} loggedID={this.state.loggedID}></DisplayStocks>
+          { !this.state.homepage ? 
+          <DisplayOwned add={this.updateMoney} loggedID={this.state.loggedID}/>
           :
-          <DisplayOwned />
+          null
           }
+        <DisplayStocks subtract={this.updateMoney} loggedID={this.state.loggedID}/>
         </View>
         : <LogRegister login={this.login} />
         }
@@ -95,7 +99,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   header: {
-    zIndex: 2, 
+    zIndex: 4, 
     position: 'absolute', 
     alignItems: 'center', 
     height: (Platform.OS === 'ios' ? 90 : 120),
