@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, StatusBar, Dimensions, Platform, AsyncStorage} 
 import DisplayStocks from './DisplayStocks.js'
 import { MaterialIcons } from '@expo/vector-icons'
 import LogRegister from './LogRegister'
+import DisplayOwned from './Displayowned'
 
 export default class App extends React.Component {
 
@@ -13,7 +14,8 @@ export default class App extends React.Component {
       logged: false,
       loggedID: 0, 
       money: 0,
-      loadeddata: false
+      loadeddata: false,
+      homepage: true,
     };
   }
 
@@ -72,7 +74,11 @@ export default class App extends React.Component {
               <Text style={{fontWeight: 'bold', fontSize: 25, color: 'white'}}><MaterialIcons name="attach-money" color="orange" size={25}/>{(this.state.money).toFixed(2)}</Text>
             </View>
           </View>
+          { this.state.homepage ? 
           <DisplayStocks subtract={this.updateMoney} loggedID={this.state.loggedID}></DisplayStocks>
+          :
+          <DisplayOwned />
+          }
         </View>
         : <LogRegister login={this.login} />
         }
@@ -91,7 +97,6 @@ const styles = StyleSheet.create({
   header: {
     zIndex: 2, 
     position: 'absolute', 
-    width: '100%', 
     alignItems: 'center', 
     height: (Platform.OS === 'ios' ? 90 : 120),
     width: Dimensions.get('window').width, 

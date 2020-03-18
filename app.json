@@ -23,6 +23,9 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android" : {
+      "package": "com.nathanielredmon.nomi"
+    },
     "ios": {
       "supportsTablet": true
     }
