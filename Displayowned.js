@@ -67,7 +67,7 @@ export default class DisplayOwned extends React.Component {
     }
     render() {
         return (
-            <View style={{backgroundColor: 'rgb(18,18,18)', position: 'absolute', flex: 1, width: Dimensions.get('window').width, height: Dimensions.get('window').height, zIndex: 3}}>
+            <View style={{backgroundColor: 'rgb(18,18,18)', position: 'absolute', flex: 1, width: Dimensions.get('window').width, height: Dimensions.get('screen').height, zIndex: 3}}>
                 <View>
                     <ScrollView indicatorStyle="white">
                         <View style={{
@@ -92,7 +92,6 @@ export default class DisplayOwned extends React.Component {
                         { this.state.isLoaded ? 
                         this.state.data.map((stock) => {
                             if(stock.isOwned) {
-                                let atleastOneOwned = true
                                 return (
                                     <View key={stock.id} style={{flex: 1, padding: 20, flexDirection: 'column', width: Dimensions.get("window").width-20, alignSelf: 'center', backgroundColor: 'rgb(38,38,38)', borderRadius: 20, marginBottom: 12}}>
                                         <View style={{flex: 1, flexDirection: 'row'}}>

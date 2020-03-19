@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, StatusBar, Dimensions, Platform, AsyncStorage, 
 import DisplayStocks from './DisplayStocks.js'
 import { MaterialIcons } from '@expo/vector-icons'
 import LogRegister from './LogRegister'
-import DisplayOwned from './Displayowned'
+import DisplayOwned from './DisplayOwned'
 
 export default class App extends React.Component {
 
@@ -77,10 +77,15 @@ export default class App extends React.Component {
               <Text style={{fontWeight: 'bold', fontSize: 25, color: 'white'}}><MaterialIcons name="attach-money" color="orange" size={25}/>{(this.state.money).toFixed(2)}</Text>
             </View>
           </View>
-          { !this.state.homepage ? 
-          <DisplayOwned add={this.updateMoney} loggedID={this.state.loggedID}/>
-          :
+          { this.state.homepage ? 
           null
+          :
+          <DisplayOwned add={this.updateMoney} loggedID={this.state.loggedID}/>
+          }
+          { this.state.settings ? 
+          null 
+          :
+          <View></View>
           }
         <DisplayStocks subtract={this.updateMoney} loggedID={this.state.loggedID}/>
         </View>
