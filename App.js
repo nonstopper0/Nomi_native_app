@@ -4,6 +4,7 @@ import DisplayStocks from './DisplayStocks.js'
 import { MaterialIcons } from '@expo/vector-icons'
 import LogRegister from './LogRegister'
 import DisplayOwned from './DisplayOwned'
+import Settings from './Settings'
 
 export default class App extends React.Component {
 
@@ -16,6 +17,7 @@ export default class App extends React.Component {
       money: 0,
       loadeddata: false,
       homepage: true,
+      settings: false,
     };
   }
 
@@ -69,27 +71,29 @@ export default class App extends React.Component {
       <View style={styles.container}>
         { this.state.logged ? 
         <View>
-          <View style={styles.header}>  
-            <TouchableOpacity onPress={()=>this.setState({homepage: !this.state.homepage})} style={{position: 'absolute', left: 10, top: Platform.OS === 'ios' ? '50%' : '60%'}}>
-              <MaterialIcons name={this.state.homepage ? 'expand-more' : 'expand-less'} color="white" size={32}/>
-            </TouchableOpacity>
-            <View style={{left: -5, top: Platform.OS === 'ios' ? '50%' : '60%'}}>
-              <Text style={{fontWeight: 'bold', fontSize: 25, color: 'white'}}><MaterialIcons name="attach-money" color="orange" size={25}/>{(this.state.money).toFixed(2)}</Text>
+            {/* header */}
+            <View style={styles.header}>  
+              {/* button that triggers the owned stocks menu */}
+              <TouchableOpacity onPress={()=>this.setState({homepage: !this.state.homepage})} style={{position: 'absolute', left: 10, top: Platform.OS === 'ios' ? '50%' : '60%'}}>
+                <MaterialIcons name={this.state.homepage ? 'expand-more' : 'expand-less'} color="white" size={32}/>
+              </TouchableOpacity>
+              {/* money display */}
+              <View style={{left: -5, top: Platform.OS === 'ios' ? '50%' : '60%'}}>
+                <Text style={{fontWeight: 'bold', fontSize: 25, color: 'white'}}><MaterialIcons name="attach-money" color="orange" size={25}/>{(this.state.money).toFixed(2)}</Text>
+              </View>
+              {/* button that triggers the settings menu */}
+              <TouchableOpacity onPress={()=>this.setState({homepage: !this.state.homepage})} style={{position: 'absolute', left: 10, top: Platform.OS === 'ios' ? '50%' : '60%'}}>
+                <MaterialIcons name={this.state.homepage ? 'expand-more' : 'expand-less'} color="white" size={32}/>
+              </TouchableOpacity>
             </View>
-          </View>
-          { this.state.homepage ? 
-          null
-          :
-          <DisplayOwned add={this.updateMoney} loggedID={this.state.loggedID}/>
-          }
-          { this.state.settings ? 
-          null 
-          :
-          <View></View>
-          }
-        <DisplayStocks subtract={this.updateMoney} loggedID={this.state.loggedID}/>
+            {/* menu triggers */}
+            { this.state.homepage ? null : <DisplayOwned add={this.updateMoney} loggedID={this.state.loggedID}/> }
+            { this.state.settings ? <Settings /> : null }
+            {/* main stock component */}
+            <DisplayStocks subtract={this.updateMoney} loggedID={this.state.loggedID}/>
         </View>
-        : <LogRegister login={this.login} />
+        : 
+        <LogRegister login={this.login} />
         }
       </View>
     )

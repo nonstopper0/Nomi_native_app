@@ -114,7 +114,7 @@ export default class DisplayOwned extends React.Component {
                                         </View>
                                         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
                                             <TouchableOpacity onPress={() => {this.sell(stock.id)}} style={{padding: 8, marginTop: 10, flexDirection:'row', alignItems:'center', backgroundColor: 'rgb(150,150,150)', borderRadius: 10}}>
-                                                <Text color="white">Sell {stock.quantity} for {parseFloat(stock.current_price * stock.quantity).toFixed(2)}</Text>
+                                                <Text color="white">Sell {stock.quantity} for ${parseFloat(stock.current_price * stock.quantity).toFixed(2)}</Text>
                                             </TouchableOpacity>
                                         </View>
                                     </View>
