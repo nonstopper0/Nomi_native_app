@@ -67,23 +67,9 @@ export default class DisplayOwned extends React.Component {
     }
     render() {
         return (
-            <View style={{backgroundColor: 'rgb(18,18,18)', position: 'absolute', flex: 1, width: Dimensions.get('window').width, height: Dimensions.get('screen').height, zIndex: 3}}>
+            <View style={{marginTop: (Platform.OS === 'ios' ? 90 : 120), backgroundColor: 'rgb(18,18,18)', position: 'absolute', flex: 1, width: Dimensions.get('window').width, height: Dimensions.get('screen').height, zIndex: 3}}>
                 <View>
-                    <ScrollView indicatorStyle="white">
-                        <View style={{
-                            flex: 1, 
-                            alignItems: 'center', 
-                            flexDirection:'row', 
-                            zIndex: 1, 
-                            width: '100%', 
-                            borderRadius: 20, 
-                            backgroundColor: 'rgb(38,38,38)', 
-                            marginTop: (Platform.OS === 'ios' ? 100 : 130),
-                            marginBottom: 12,
-                            justifyContent: 'space-evenly'
-                            }}
-                        >
-                        </View>
+                    <ScrollView indicatorStyle="white" style={{paddingTop: 20}}>
                         { this.state.message ? 
                         <Text style={{fontSize: 20, color:'white', textAlign:'center', margin: 20}}>{this.state.message}</Text>
                         :
@@ -124,6 +110,7 @@ export default class DisplayOwned extends React.Component {
                         :
                         null
                         }
+                    <View style={{height: 200}}></View>
                     </ScrollView>
                 </View>
             </View>

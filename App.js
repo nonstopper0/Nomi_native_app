@@ -45,14 +45,20 @@ export default class App extends React.Component {
 
   // this function is called from the menu listed downbelow, it logs us out on both the front and back-end.
   logout = async(e) => {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/logout`, {
+      const response = await fetch(`https://nomistockexpress.herokuapp.com/logout`, {
         method: 'GET'
     })
     const parsedResponse = await response.json()
     if (parsedResponse.status === 200) {
+      AsyncStorage.removeItem('1')
+      AsyncStorage.removeItem('2')
       this.setState({
         loggedID: 0,
-        logged: false
+        logged: false,
+        settings: false,
+        homepage: true,
+        money: 0,
+        loadeddata: false,
       })
     }
   }
@@ -75,20 +81,20 @@ export default class App extends React.Component {
             <View style={styles.header}>  
               {/* button that triggers the owned stocks menu */}
               <TouchableOpacity onPress={()=>this.setState({homepage: !this.state.homepage})} style={{position: 'absolute', left: 10, top: Platform.OS === 'ios' ? '50%' : '60%'}}>
-                <MaterialIcons name={this.state.homepage ? 'expand-more' : 'expand-less'} color="white" size={32}/>
+                <MaterialIcons name={this.state.homepage ? 'expand-more' : 'expand-less'} color={!this.state.homepage ? 'grey' : 'white'} size={32}/>
               </TouchableOpacity>
               {/* money display */}
               <View style={{left: -5, top: Platform.OS === 'ios' ? '50%' : '60%'}}>
                 <Text style={{fontWeight: 'bold', fontSize: 25, color: 'white'}}><MaterialIcons name="attach-money" color="orange" size={25}/>{(this.state.money).toFixed(2)}</Text>
               </View>
               {/* button that triggers the settings menu */}
-              <TouchableOpacity onPress={()=>this.setState({homepage: !this.state.homepage})} style={{position: 'absolute', left: 10, top: Platform.OS === 'ios' ? '50%' : '60%'}}>
-                <MaterialIcons name={this.state.homepage ? 'expand-more' : 'expand-less'} color="white" size={32}/>
+              <TouchableOpacity onPress={()=>this.setState({settings: !this.state.settings})} style={{position: 'absolute', left: Dimensions.get('screen').width - 50, top: Platform.OS === 'ios' ? '50%' : '60%'}}>
+                <MaterialIcons name='settings' color={this.state.settings ? 'grey' : 'white'} size={32}/>
               </TouchableOpacity>
             </View>
             {/* menu triggers */}
             { this.state.homepage ? null : <DisplayOwned add={this.updateMoney} loggedID={this.state.loggedID}/> }
-            { this.state.settings ? <Settings /> : null }
+            { this.state.settings ? <Settings logout={this.logout}/> : null }
             {/* main stock component */}
             <DisplayStocks subtract={this.updateMoney} loggedID={this.state.loggedID}/>
         </View>
